@@ -18,7 +18,7 @@ using namespace std;
 const int INF = 987654321;
 int arr[11001];
 int n, m;
-int solution(int start,int end)
+int solution(int start,int end)//이분탐색
 {
     if (end-start <= 1)  return start;
     int mid = (start + end) / 2;
