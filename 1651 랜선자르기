@@ -1,0 +1,47 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <climits>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <set>
+ 
+using namespace std;
+const int INF = 987654321;
+int arr[11001];
+int n, m;
+int solution(int start,int end)
+{
+    if (end-start <= 1)  return start;
+    int mid = (start + end) / 2;
+    int cnt = 0;
+    for (int i = 0; i < n; i++)
+    {
+        cnt += arr[i] / mid;
+    }
+    if (cnt >= m)
+        return solution(mid, end);
+    else
+        return solution(start,mid);
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d%d", &n, &m);
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+    cout << solution(0,INT_MAX) << endl;
+ 
+}
