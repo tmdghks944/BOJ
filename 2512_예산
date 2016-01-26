@@ -1,0 +1,57 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <climits>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+int arr[10001];
+int T,maxx;
+int solution(int start, int end)
+{
+    if (end - start <= 1)    return start;
+    int mid = (start + end) / 2;
+    int sum = 0;
+    for (int i = 0; i < T; i++)
+    {
+        if (arr[i] >= mid)
+            sum += mid;
+        else
+            sum += arr[i];
+    }
+    if (sum<=maxx)
+        return solution(mid,end);
+    else
+        return solution(start, mid);
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d", &T);
+    int para = 0;
+    for (int i = 0; i < T; i++) {
+        scanf("%d", &arr[i]);
+        para += arr[i];
+    }
+    sort(arr, arr + T);
+    scanf("%d", &maxx);
+    if (para <= maxx)
+        cout << arr[T-1]<< endl;
+    else
+    {
+        cout << solution(0, INT_MAX) << endl;
+    }
+}
