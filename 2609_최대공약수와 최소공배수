@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+#include <cstdio>
+#include <algorithm>
+#include <string.h>
+#include <vector>
+#include <set>
+#include <functional>
+ 
+using namespace std;
+int gcd(int x,int y)
+{
+    while(x!=y)
+    {
+        if(x>y)
+            x=x-y;
+        else
+            y=y-x;
+    }
+    return x;
+}
+int lcm(int x,int y)
+{
+    return x*y/gcd(x,y);
+}
+int a,b;
+ 
+int main(void)
+{
+#ifdef _CONSOLE
+   freopen("input.txt","r",stdin);
+#endif
+    scanf("%d%d",&a,&b);
+    printf("%d\n",gcd(a,b));
+    printf("%d\n",lcm(a,b));
+}
