@@ -1,0 +1,69 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+ 
+using namespace std;
+typedef long long ll;
+vector<pair<ll, ll>> arr[800];
+const ll INF = 99987654321;
+ll n, m;
+ll solution(ll s, ll e)
+{
+    vector<ll> dist(n + 1, INF);
+    dist[s] = 0;
+    priority_queue<pair<ll, ll>> pq;
+    pq.push(make_pair(0, s));
+    while (!pq.empty())
+    {
+        ll cost = -pq.top().first;
+        ll here = pq.top().second;
+        pq.pop();
+        if (here == e)
+            return cost;
+        if (dist[here] < cost)   continue;
+        for (ll i = 0; i < arr[here].size(); i++)
+        {
+            ll there = arr[here][i].first;
+            ll nextcost = cost + arr[here][i].second;
+            if (dist[there] > nextcost)
+            {
+                dist[there] = nextcost;
+                pq.push(make_pair(-nextcost, there));
+            }
+        }
+    }
+    return INF;
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d%d", &n, &m);
+    while (m--)
+    {
+        ll u, v, w;
+        scanf("%lld%lld%lld", &u, &v, &w);
+        arr[u].push_back(make_pair(v, w));
+        arr[v].push_back(make_pair(u, w));
+    }
+    ll t1, t2;
+    scanf("%lld%lld", &t1, &t2);
+    ll sum1 = 0;
+    sum1 += solution(1,t1) + solution(t1,t2) + solution(t2,n);
+    ll sum2 = 0;
+    sum2+=solution(1,t2) + solution(t2,t1) + solution(t1,n);
+    if (sum1 >= INF && sum2 >= INF)
+        cout << "-1" << endl;
+    else
+        cout << min(sum1, sum2) << endl;
+}
