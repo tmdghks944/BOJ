@@ -1,0 +1,96 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <set>
+using namespace std;
+const int INF = 987654321;
+int n, m;
+string str[1011];
+vector<pair<int, int>> arr[1001];
+int path[1001];
+ 
+vector<int> solution(int s)
+{
+    vector<int> dist(n + 1, INF);
+    dist[s] = 0;
+    priority_queue<pair<int, int>> pq;
+    pq.push(make_pair(0, s));
+    path[s] = INF;
+    while (!pq.empty())
+    {
+        int cost = -pq.top().first;
+        int here = pq.top().second;
+        pq.pop();
+        if (dist[here] < cost)   continue;
+        for (int i = 0; i < arr[here].size(); i++)
+        {
+            int nextcost = cost + arr[here][i].second;
+            int there = arr[here][i].first;
+            if (dist[there] > nextcost)
+            {
+                dist[there] = nextcost;
+                path[there] = here;
+                pq.push(make_pair(-nextcost, there));
+            }
+        }
+    }
+    return dist;
+}
+int main() {
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d%d", &n, &m);
+    for (int i = 1; i <= n; i++)
+    {
+        cin >> str[i];
+    }
+    for (int i = 1; i <= n; i++)
+    {
+         
+        for (int j = 1; j <= n; j++)
+        {
+            if (i == j) continue;
+            int cnt = 0;
+            for (int k = 0; k < m; k++)
+            {
+                if (str[i][k] != str[j][k])
+                    cnt++;
+            }
+            if (cnt == 1)
+            {
+                arr[i].push_back(make_pair(j, 1));
+            }
+        }
+ 
+    }
+    int s, e;
+    scanf("%d%d", &s, &e);
+    vector<int> ans = solution(s);
+    if (ans[e]==INF){
+        cout << "-1" << endl;
+        return 0;
+    }
+    vector<int> kk;
+    kk.push_back(e);
+    int tmp = path[e];
+    while (tmp != INF)
+    {
+        kk.push_back(tmp);
+        tmp = path[tmp];
+    }
+    reverse(kk.begin(), kk.end());
+    for (int i = 0; i < kk.size(); i++)
+        cout << kk[i] << " ";
+    cout << endl;
+}
