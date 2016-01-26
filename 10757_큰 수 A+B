@@ -1,0 +1,118 @@
+string a, b;
+    cin >> a >> b;
+    string ans;
+    reverse(a.begin(),a.end());
+    reverse(b.begin(), b.end());
+    if (a.size() == b.size())
+    {
+        int siz = a.size();
+        int namegi = 0;
+        for (int i = 0; i < siz; i++)
+        {
+            char tmp = a[i] + b[i] - '0' + namegi;
+            if (tmp>='0' && tmp<='9')
+            {
+                ans.push_back(tmp);
+                namegi = 0;
+            }
+            else
+            {
+                namegi = 1;
+                tmp -= 10;
+                ans.push_back(tmp);
+            }
+        }
+        if (namegi != 0)
+        {
+            ans.push_back(namegi+'0');
+            namegi = 0;
+        }
+        reverse(ans.begin(), ans.end());
+        cout << ans << endl;
+        return 0;
+    }
+    else
+    {
+        int minsiz = min(a.size(), b.size());
+        int maxsiz = max(a.size(), b.size());
+        int namegi = 0;
+        for (int i = 0; i < minsiz; i++)
+        {
+            char tmp = a[i] + b[i] - '0' + namegi;
+            if (tmp >= '0' && tmp <= '9')
+            {
+                ans.push_back(tmp);
+                namegi = 0;
+            }
+            else
+            {
+                namegi = 1;
+                tmp -= 10;
+                ans.push_back(tmp);
+            }
+        }
+        if (namegi != 0)
+        {
+            ans.push_back(namegi + '0');
+        }
+        if (a.size() > b.size())//a로
+        {
+            for (int i = minsiz; i < maxsiz; i++)
+            {
+                if (namegi !=0)
+                {
+                    if (!(namegi + a[i] >= '0' && namegi + a[i] <= '9'))
+                    {
+                        ans.pop_back();
+                        ans.push_back('0');
+                        ans.push_back('1');
+                    }
+                    else
+                    {
+                        ans.pop_back();
+                        ans.push_back(namegi + a[i]);
+                        namegi = 0;
+ 
+                    }
+                }
+                else
+                {
+                    ans.push_back(a[i]);
+                }
+            }
+        }
+        else
+        {
+            for (int i = minsiz; i < maxsiz; i++)
+            {
+                if (namegi != 0)
+                {
+                    if (!(namegi + b[i] >= '0' && namegi + b[i] <= '9'))
+                    {
+                        ans.pop_back();
+                        ans.push_back('0');
+                        ans.push_back('1');
+                    }
+                    else
+                    {
+                        ans.pop_back();
+                        ans.push_back(namegi + b[i]);
+                        namegi = 0;
+                    }
+                }
+                else
+                {
+                    ans.push_back(b[i]);
+                }
+            }
+        }
+        if (!(ans[ans.size() - 1] >= '0' && ans[ans.size() - 1] <= '9'))
+        {
+            ans.pop_back();
+            ans.push_back('0');
+            ans.push_back('1');
+        }
+        reverse(ans.begin(), ans.end());
+        cout << ans << endl;
+        return 0;
+    }
