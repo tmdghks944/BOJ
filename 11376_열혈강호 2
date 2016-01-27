@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string>
+#include <cstdio>
+#include <algorithm>
+#include <string.h>
+#include <vector>
+#include <set>
+#include <iomanip>
+#include <functional>
+ 
+using namespace std;
+const int INF = 987654321;
+vector<vector<int>> arr;
+int n, m;
+vector<int> amatch;
+vector<int> bmatch;
+vector<bool> visited;
+bool dfs(int a)
+{
+    if (visited[a])
+        return false;
+    visited[a] = true;
+    for (int b = 0; b < arr[a].size();b++)
+    {
+        int there = arr[a][b];
+        if (bmatch[there] == -1 || dfs(bmatch[there]))
+        {
+            amatch[a] = there;
+            bmatch[there] = a;
+            return true;
+        }
+    }
+    return false;
+}
+ 
+int bimatch()
+{
+    amatch = vector<int>(n + 1,-1);
+    bmatch = vector<int>(m + 1,-1);
+    int ans = 0;
+    for (int j = 0; j < 2; j++)
+    {
+        for (int start = 1; start <= n; start++)
+        {
+            visited = vector<bool>(n + 1,false);
+            if (dfs(start))
+                ans++;
+        }
+    }
+    return ans;
+}
+ 
+int main(void)
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d%d", &n, &m);
+    arr = vector<vector<int>>(n + 1);
+    for (int i = 1; i <= n; i++)
+    {
+        int num;
+        scanf("%d", &num);
+        while (num--)
+        {
+            int tmp;
+            scanf("%d", &tmp);
+            arr[i].push_back(tmp);
+        }
+    }
+    cout << bimatch() << endl;
+}
