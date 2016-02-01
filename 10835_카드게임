@@ -1,0 +1,55 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <climits>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <set>
+ 
+typedef long long ll;
+using namespace std;
+ 
+typedef long long ll;
+ 
+int arr[2001];
+int brr[2001];
+int dp[2001][2001];
+int T;
+int solution(int a, int b)
+{
+    if (a == T || b == T)
+        return 0;
+    int &ret = dp[a][b];
+    if (ret != -1)  return ret;
+    if (arr[a] > brr[b])
+    {
+        return ret = max(solution(a + 1, b), max(solution(a + 1, b + 1), solution(a , b+1) + brr[b]));
+    }
+    else
+    {
+        return ret = max(solution(a + 1, b), solution(a + 1, b + 1));
+    }
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    memset(dp, -1, sizeof(dp));
+    scanf("%d", &T);
+     
+    for (int i = 0; i < T; i++)
+        scanf("%d", &arr[i]);
+    for (int i = 0; i < T; i++)
+        scanf("%d", &brr[i]);
+    cout << solution(0, 0) << endl;
+}
