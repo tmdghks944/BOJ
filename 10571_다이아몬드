@@ -1,0 +1,62 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <climits>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <set>
+ 
+typedef long long ll;
+using namespace std;
+ 
+typedef long long ll;
+vector< pair<float, float> > arr;
+vector<int> order;
+int dp[210];
+int cnt;
+int solution(int s)
+{
+    int &ret = dp[s + 1];
+    if (ret != -1)  return ret;
+    ret = 0;
+    for (int n = s + 1; n < cnt; n++)
+    {
+        if (s==-1 || (arr[s].first<arr[n].first && arr[s].second>arr[n].second))
+        {
+            ret = max(ret, solution(n) + 1);
+        }
+    }
+    return ret;
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    int T;
+    scanf("%d", &T);
+    while (T--)
+    {
+        memset(dp, -1, sizeof(dp));
+        arr.clear();
+        order.clear();
+ 
+        scanf("%d", &cnt);
+        for (int i = 0; i < cnt; i++)
+        {
+            float a, b;
+            scanf("%f%f", &a, &b);
+            arr.push_back({ a,b });
+        }
+        cout << solution(-1) << endl;
+    }
+}
