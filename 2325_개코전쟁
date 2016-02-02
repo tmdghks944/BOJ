@@ -1,0 +1,79 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <set>
+using namespace std;
+const int INF = 987654321;
+int n, m;
+vector<pair<int, int>> arr[1001];
+int path[1001];
+vector<int> dijkstra(int s,int x,int y)//here가 x이거나 y일때, there가 x이거나 y일때에 필터링.
+{
+    vector<int> dist(n + 1, INF);
+    dist[s] = 0;
+    priority_queue<pair<int, int>> pq;
+    pq.push({ 0,s });
+    path[s] = INF;
+    while (!pq.empty())
+    {
+        int cost = -pq.top().first;
+        int here = pq.top().second;
+        pq.pop();
+        if (dist[here] < cost)   continue;
+        for (int i = 0; i < arr[here].size(); i++)
+        {
+            int there = arr[here][i].first;
+            int nextcost = arr[here][i].second + cost;
+            if (there == x && here == y)    continue;
+            if (there == y && here == x)    continue;
+            if (dist[there] > nextcost)
+            {
+                dist[there] = nextcost;
+                path[there] = here;
+                pq.push({ -nextcost,there });
+            }
+        }
+    }
+    return dist;
+}
+int main() {
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d%d", &n, &m);
+    while (m--)
+    {
+        int u, v, w;
+        scanf("%d%d%d", &u, &v, &w);
+        arr[u].push_back({v,w});
+        arr[v].push_back({ u,w });
+    }
+    vector<int> ans = dijkstra(1,0,0);
+    vector<int> shortpath;
+    shortpath.push_back(n);
+    int tmp = path[n];
+    while (tmp != INF)
+    {
+        shortpath.push_back(tmp);
+        tmp = path[tmp];
+    }
+    reverse(shortpath.begin(), shortpath.end());
+    int maxx = 0;
+    for (int i = 0; i < shortpath.size() - 1; i++)
+    {
+        vector<int> para = dijkstra(1, shortpath[i], shortpath[i + 1]);
+        if(para[n]!=INF)
+            maxx = max(maxx, para[n]);
+    }
+    cout << maxx << endl;
+}
