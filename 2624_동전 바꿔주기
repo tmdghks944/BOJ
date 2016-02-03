@@ -1,0 +1,46 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+pair<int, int> arr[101];
+int t, k;
+int dp[10001][101];
+int solution(int value, int pos)
+{
+    if (value > t)   return 0;
+    if (value == t) return 1;
+    if (pos > k) return 0;
+    int &ret = dp[value][pos];
+    if (ret != -1)  return ret;
+    ret = 0;
+    for (int i = 0; i <= arr[pos].second; i++)
+    {
+        ret += solution(value+arr[pos].first*i, pos + 1);
+    }
+    return ret;
+}
+int main() {
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    memset(dp, -1, sizeof(dp));
+    scanf("%d%d", &t, &k);
+    for (int i = 0; i < k; i++)
+        scanf("%d%d", &arr[i].first, &arr[i].second);
+    printf("%d\n", solution(0, 0));
+}
