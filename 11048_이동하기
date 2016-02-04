@@ -1,0 +1,49 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+ll arr[1001][1001];
+ll dp[1001][1001];
+int n, m;
+ll maxmax(ll a, ll b, ll c)
+{
+    return max(a, max(b, c));
+}
+ll solution(int a, int b)
+{
+    if (a == n - 1 && b == m - 1)
+        return arr[a][b];
+    if (a >= n || b >= m)
+        return 0;
+    ll &ret = dp[a][b];
+    if (ret != -1)  return ret;
+    ret = 0;
+    ret = maxmax(solution(a+1,b)+arr[a][b],solution(a,b+1)+arr[a][b],solution(a+1,b+1)+arr[a][b]);
+    return ret;
+}
+int main() {
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    memset(dp, -1, sizeof(dp));
+    scanf("%d%d", &n, &m);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            scanf("%d", &arr[i][j]);
+    printf("%d\n", solution(0, 0));
+}
