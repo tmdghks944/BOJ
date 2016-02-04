@@ -1,0 +1,50 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+ 
+int arr[22][22];
+int n, m;
+int visited[201];
+int maxx;
+void solution(int a, int b, int sum)
+{
+    if (a >= n+1 || b >= m+1 || a == 0 || b == 0 || visited[arr[a][b]])
+        return;
+    visited[arr[a][b]] = 1;
+    solution(a - 1, b, sum + 1); solution(a, b - 1, sum + 1); solution(a + 1, b, sum + 1); solution(a, b + 1, sum + 1);
+    visited[arr[a][b]] = 0;
+    maxx = max(maxx, sum);
+}
+int main() {
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d%d", &n, &m);
+    for (int i = 1; i <= n; i++)
+    {
+        string str;
+        cin >> str;
+        for (int j = 1; j <= m; j++)
+        {
+            arr[i][j] = str[j-1] - 'A'+1;
+        }
+    }
+    solution(1, 1, 1);
+    printf("%d\n", maxx);
+}
