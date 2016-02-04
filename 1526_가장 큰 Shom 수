@@ -1,0 +1,45 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+ 
+int main() {
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    int n;
+    scanf("%d", &n);
+    for (int i = n; i >= 1; i--)
+    {
+        bool isPossible = true;
+        int tmp = i;
+        while (tmp != 0)
+        {
+            int para = tmp % 10;
+            if (para != 7 && para != 4) {
+                isPossible = false;
+                break;
+            }
+            tmp /= 10;
+        }
+        if (isPossible == true) {
+            printf("%d\n", i);
+            return 0;
+        }
+    }
+}
