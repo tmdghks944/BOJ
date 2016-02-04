@@ -1,0 +1,44 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+int arr[1025][1025];
+int psum[1025][1025];
+ 
+int main() {
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    int cnt, T;
+    scanf("%d%d", &cnt,&T);
+    for (int i = 1; i <= cnt; i++)
+    {
+        for (int j = 1; j <= cnt; j++)
+        {
+            scanf("%d", &arr[i][j]);
+            psum[i][j] =psum[i - 1][j] + psum[i][j-1]+arr[i][j]-psum[i-1][j-1];
+        }
+    }
+     
+    while (T--)
+    {
+        int a, b,c,d;
+        scanf("%d%d%d%d", &a, &b,&c,&d);
+        printf("%d\n", psum[c][d]-psum[c][b-1]-psum[a-1][d]+psum[a-1][b-1]);
+    }
+}
