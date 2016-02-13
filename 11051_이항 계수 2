@@ -1,0 +1,41 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <math.h>
+#include <set>
+ 
+typedef long long ll;
+ 
+using namespace std;
+const int INF = 987654321;
+int dp[1001][1001];
+int solution(int a, int b)
+{
+    if (b == 0 || a == b)
+        return 1;
+    int &ret = dp[a][b];
+    if (ret != -1)  return ret;
+    ret = (solution(a - 1, b - 1) + solution(a - 1, b))%10007;
+    return ret;
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    memset(dp, -1, sizeof(dp));
+    int n, k;
+    scanf("%d%d", &n, &k);
+    cout << solution(n, k) << endl;
+}
