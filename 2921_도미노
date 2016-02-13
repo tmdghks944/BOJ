@@ -1,0 +1,38 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <math.h>
+#include <set>
+ 
+typedef long long ll;
+ 
+using namespace std;
+const int INF = 987654321;
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    ll n;
+    ll ans = 0;
+    scanf("%lld", &n);
+    for (ll i = 0; i <= n; i++) 
+    {
+        for (ll j = 0; j <= i; j++) 
+        {
+            ans += i + j;
+        }
+    }
+    printf("%lld\n", ans);
+}
