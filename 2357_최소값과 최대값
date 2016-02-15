@@ -1,0 +1,103 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <math.h>
+#include <set>
+#include <climits>
+ 
+typedef long long ll;
+ 
+using namespace std;
+const int INF = 987654321;
+int n, m;
+int arrsize=1;
+vector<int> arr;
+vector<int> mintree;
+vector<int> maxtree;
+void mininput(int pos, int value)
+{
+    int inputpos = pos + arrsize;
+    mintree[inputpos] = value;
+    inputpos /= 2;
+    while (inputpos > 0)
+    {
+        mintree[inputpos] = min(mintree[inputpos*2], mintree[inputpos*2 + 1]);
+        inputpos /= 2;
+    }
+}
+void maxinput(int pos, int value)
+{
+    int inputpos = pos + arrsize;
+    maxtree[inputpos] = value;
+    inputpos /= 2;
+    while (inputpos > 0)
+    {
+        maxtree[inputpos] = max(maxtree[inputpos * 2], maxtree[inputpos * 2 + 1]);
+        inputpos /= 2;
+    }
+}
+int minsolution(int a, int b)
+{
+    int ret = INT_MAX;
+    int lo = a + arrsize;
+    int hi = b + arrsize;
+    while (lo <= hi)
+    {
+        if (lo % 2 == 1)    ret = min(ret, mintree[lo++]);
+        if (hi % 2 == 0)    ret = min(ret, mintree[hi--]);
+        lo /= 2;
+        hi /= 2;
+    }
+    return ret;
+}
+int maxsolution(int a, int b)
+{
+    int ret = 0;
+    int lo = a + arrsize;
+    int hi = b + arrsize;
+    while (lo <= hi)
+    {
+        if (lo % 2 == 1)    ret = max(ret, maxtree[lo++]);
+        if (hi % 2 == 0)    ret = max(ret, maxtree[hi--]);
+        lo /= 2;
+        hi /= 2;
+    }
+    return ret;
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d%d", &n, &m);
+    arr.resize((4 * n)+1, INT_MAX);
+    mintree.resize(4 * n, INT_MAX);
+    maxtree.resize(4 * n, 0);
+    while (n > arrsize)
+        arrsize *= 2;
+    for (int i = 0; i < n; i++)
+    {
+        int tmp;
+        scanf("%d", &tmp);
+        mininput(i, tmp);
+        maxinput(i, tmp);
+    }
+    for (int i = 0; i < m; i++)
+    {
+        int a, b;
+        scanf("%d%d", &a, &b);
+        printf("%d %d\n", minsolution(a-1, b-1),maxsolution(a-1,b-1));
+ 
+    }
+}
