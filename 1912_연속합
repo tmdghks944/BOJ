@@ -1,0 +1,51 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <math.h>
+#include <set>
+#include <climits>
+ 
+ 
+using namespace std;
+const int INF = 987654321;
+typedef long long ll;
+ 
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    vector<ll> arr;
+    int n;
+    scanf("%d", &n);
+    vector<ll> brr(n);
+    int tmp;
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &tmp);
+        arr.push_back(tmp);
+    }
+    brr[0] = arr[0];
+    for (int i = 1; i < n; i++)
+    {
+        if (brr[i - 1] + arr[i] > arr[i]) brr[i] = brr[i - 1] + arr[i];
+        else brr[i] = arr[i];
+    }
+    ll max = brr[0];
+    for (int i = 0; i < n; i++)
+    {
+        if (max < brr[i]) max = brr[i];
+    }
+    cout << max << endl;
+}
