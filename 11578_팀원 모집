@@ -1,0 +1,82 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <math.h>
+#include <set>
+#include <climits>
+ 
+ 
+using namespace std;
+const int INF = 987654321;
+typedef long long ll;
+vector<int> arr[10];
+int n, m;
+vector<int> ans;
+vector<int> realans;
+int solution(int topick, int x)
+{
+    if (topick == 0)
+    {
+        int isPossible = 0;
+         
+        for (int i = 0; i < ans.size(); i++) 
+        {
+            for (int j = 0; j < arr[ans[i]].size(); j++)
+            {
+                isPossible |= 1 << (arr[ans[i]][j]-1);
+            }
+        }
+        if (isPossible == (1 << n) - 1)
+        {
+            realans.push_back(ans.size());
+        }
+    }
+    else if (topick == -1)
+        return 0;
+    int num = ans.empty() ? 1 : ans.back() + 1;
+    for (int i = num; i <= x; i++)
+    {
+        ans.push_back(i);
+        solution(topick - 1, x);
+        ans.pop_back();
+    }
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d%d", &n, &m);
+    for (int i = 1; i <= m; i++)
+    {
+        int cnt;
+        scanf("%d", &cnt);
+        for (int j = 0; j < cnt;j++)
+        {
+            int tmp;
+            scanf("%d", &tmp);
+            arr[i].push_back(tmp);
+        }
+    }
+    for (int i = 1; i <= m; i++)//한명에서 m명까지 모두 이용.
+    {
+        solution(i, m);//m명중에 i명택하기.
+    }
+    if (realans.size() == 0)
+        cout << "-1" << endl;
+    else
+    {
+        cout << realans[0] << endl;
+    }
+}
