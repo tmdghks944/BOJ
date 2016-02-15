@@ -1,0 +1,110 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <math.h>
+#include <set>
+#include <climits>
+ 
+ 
+using namespace std;
+const int INF = 987654321;
+typedef long long ll;
+int n, m;
+int arrsize=1;
+vector<int> arr;
+vector<int> maxtree;
+ 
+void input(int pos, int value)
+{
+    int inputpos = pos + arrsize;
+    arr[inputpos] = value;
+    inputpos /= 2;
+    while (inputpos > 0)
+    {
+        arr[inputpos] = arr[inputpos * 2] + arr[inputpos * 2 + 1];
+        inputpos /= 2;
+    }
+}
+int solution(int a, int b)
+{
+    int ret = 0;
+    int lo = a + arrsize;
+    int hi = b + arrsize;
+    while (lo <= hi)
+    {
+        if (lo % 2 == 1)    ret += arr[lo++];
+        if (hi % 2 == 0)    ret += arr[hi--];
+        lo /= 2;
+        hi /= 2;
+    }
+    return ret;
+}
+void fixinput(int pos, int value)
+{
+    int inputpos = pos + arrsize;
+    arr[inputpos] += value;
+    inputpos /= 2;
+    while (inputpos > 0)
+    {
+        arr[inputpos] = arr[inputpos * 2] + arr[inputpos * 2 + 1];
+        inputpos /= 2;
+    }
+}
+ 
+int binarysearch(int start, int end,int target)
+{
+    if (end - start <= 1)    return end;
+    int mid = (start + end) / 2;
+    int sum;
+    sum = solution(0, mid);
+    if (target <= sum)
+        return binarysearch(start, mid, target);
+    else
+        return binarysearch(mid, end, target);
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d", &n);
+    arr.resize(4 * n, 0);
+    while (n > arrsize)
+        arrsize *= 2;
+    for (int i = 0; i < n; i++)
+    {
+        int tmp;
+        scanf("%d", &tmp);
+        input(i, tmp);
+    }
+    int m;
+    scanf("%d", &m);
+    for (int i = 0; i < m; i++)
+    {
+        int q;
+        scanf("%d", &q);
+        if (q == 1)//input
+        {
+            int q1, q2;
+            scanf("%d%d", &q1, &q2);
+            fixinput(q1 - 1, q2);
+        }
+        else//output
+        {
+            int q1;
+            scanf("%d", &q1);
+            printf("%d\n", binarysearch(-1, n,q1)+1);
+        }
+    }
+}
