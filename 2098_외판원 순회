@@ -1,0 +1,57 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <math.h>
+#include <set>
+ 
+ 
+ 
+using namespace std;
+const int INF = 987654321; 
+typedef long long ll;
+ll n;
+ll arr[20][20];
+ll dp[20][2 << 17];
+ll solution(ll pos, ll state)
+{
+    if (state == (1 << n) - 1)
+        return arr[pos][0];
+    ll &ret = dp[pos][state];
+    if (ret != -1)  return ret;
+    ret = INT_MAX;
+    for (int i = 0; i < n; i++)
+    {
+        if (state&(1 << i))   continue;
+        ret = min(ret, solution(i, state | (1 << i)) + arr[pos][i]);
+    }
+    return ret;
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%lld", &n);
+    memset(dp, -1, sizeof(dp));
+    for (ll i = 0; i < n; i++)
+    {
+        for (ll j = 0; j < n; j++)
+        {
+            scanf("%lld", &arr[i][j]);
+            if (arr[i][j] == 0) arr[i][j] = INT_MAX;
+        }
+    }
+    printf("%lld\n", solution(0, 1));
+}
