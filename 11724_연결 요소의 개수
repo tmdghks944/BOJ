@@ -1,0 +1,58 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <math.h>
+#include <set>
+ 
+ 
+ 
+using namespace std;
+const int INF = 987654321; 
+typedef long long ll;
+int n, m;
+vector<int> isConnect[1001];
+bool visited[1001];
+void dfs(int s)
+{
+    visited[s] = true;
+    for (int i = 0; i < isConnect[s].size(); i++)
+    {
+        if (visited[isConnect[s][i]])   continue;
+        visited[isConnect[s][i]] = true;
+        dfs(isConnect[s][i]);
+    }
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d%d", &n, &m);
+    for (int i = 0; i < m; i++)
+    {
+        int a, b;
+        scanf("%d%d", &a, &b);
+        isConnect[a].push_back(b);
+        isConnect[b].push_back(a);
+    }
+    int ans = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        if (visited[i]) continue;
+        dfs(i);
+        ans++;
+    }
+    printf("%d\n", ans);
+}
