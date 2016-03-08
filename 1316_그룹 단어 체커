@@ -1,0 +1,59 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+const int INF = 987654321;
+bool alpha[27];
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    int T;
+    scanf("%d", &T);
+    int realcnt = 0;
+    while (T--)
+    {
+        memset(alpha, false, sizeof(alpha));
+        string str;
+        cin >> str;
+        int cnt = 1;
+        if (str.size() == 1)
+        {
+            realcnt++;
+            continue;
+        }
+        for (int i = 0; i < str.size()-1; i++)
+        {
+            if (str[i] != str[i + 1])
+                cnt++;
+            alpha[str[i] - 'a'] = true;
+            alpha[str[i + 1] - 'a'] = true;
+        }
+        int cnt2 = 0;
+        for (int i = 0; i < 26; i++)
+        {
+            if (alpha[i] == true)
+                cnt2++;
+        }
+        if (cnt == cnt2)
+            realcnt++;
+    }
+    printf("%d\n", realcnt);
+}
