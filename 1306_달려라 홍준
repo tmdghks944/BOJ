@@ -1,0 +1,71 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+const int INF = 987654321;
+int n, m;
+vector<int> arr;
+int inputsize=1;
+ 
+void seginput(int pos, int value)
+{
+    int inputpos = pos + inputsize;
+    arr[inputpos] = value;
+    inputpos /= 2;
+    while (inputpos > 0)
+    {
+        arr[inputpos] = max(arr[inputpos * 2], arr[inputpos * 2 + 1]);
+        inputpos /= 2;
+    }
+}
+ 
+int solution(int a, int b)
+{
+    int lo = a + inputsize;
+    int hi = b + inputsize;
+    int ret = 0;
+    while (lo <= hi)
+    {
+        if (lo % 2 == 1)    ret = max(ret, arr[lo++]);
+        if (hi % 2 == 0)    ret = max(ret, arr[hi--]);
+        lo /= 2;
+        hi /= 2;
+    }
+    return ret;
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d%d", &n, &m);
+    while (n > inputsize)
+        inputsize *= 2;
+    arr.resize(4 * inputsize, 0);
+    for (int i = 0; i < n; i++)
+    {
+        int tmp;
+        scanf("%d", &tmp);
+        seginput(i, tmp);
+    }
+    for (int i = m-1; i <= n-m; i++)
+    {
+        printf("%d ", solution(i-m+1, i + m-1));
+    }
+}
