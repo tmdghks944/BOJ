@@ -1,0 +1,63 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+const int INF = 987654321;
+int main() {
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    string a;
+    cin >> a;
+    sort(a.begin(), a.end());
+    string ans;
+    bool isPossible = true;
+    char onechar;
+    for (int i = 0; i < a.size();)
+    {
+        if (a[i] == a[i + 1]) {
+            ans.push_back(a[i]);
+            i += 2;
+        }
+        else if (a[i] != a[i + 1] && isPossible == true)
+        {
+            isPossible = false;
+            onechar = a[i];
+            i += 1;
+        }
+        else if (a[i] != a[i + 1] && isPossible == false)
+        {
+            cout << "I'm Sorry Hansoo" << endl;
+            return 0;
+        }
+    }
+    if (isPossible == true)
+    {
+        cout << ans;
+        reverse(ans.begin(), ans.end());
+        cout << ans << endl;
+    }
+    else
+    {
+        cout << ans;
+        cout << onechar;
+        reverse(ans.begin(), ans.end());
+        cout << ans << endl;
+    }
+}
