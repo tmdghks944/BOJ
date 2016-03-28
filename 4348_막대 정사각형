@@ -1,0 +1,73 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+const int INF = 987654321;
+int arr[21];
+int dp[1 << 21];
+int cnt;
+int para;
+int solution(int state, int sum)
+{
+    if (dp[state]) return 0;
+    if (sum == para)    sum = 0;
+    if (state == (1 << cnt) - 1 && sum == 0)  return 1;
+    if (sum > para)  return 0;
+    dp[state] = 1;
+    for (int i = 0; i < cnt; i++)
+    {
+        if (state&(1 << i))   continue;
+        if (solution(state | (1 << i), sum + arr[i]))
+            return 1;
+    }
+    return 0;
+}
+int main() {
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    int T;
+    scanf("%d", &T);
+    while (T--)
+    {
+        memset(dp, 0, sizeof(dp));
+        scanf("%d", &cnt);
+        int sum = 0;
+        for (int i = 0; i < cnt; i++)
+        {
+            int tmp;
+            scanf("%d", &tmp);
+            arr[i] = tmp;
+            sum += tmp;
+        }
+        para = sum / 4;
+        if (sum != para * 4)
+        {
+            puts("no");
+            continue;
+        }
+        else
+        {
+            if (solution(0, 0)==1)
+                puts("yes");
+            else
+                puts("no");
+        }
+    }
+}
