@@ -1,0 +1,73 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <iomanip>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+const int INF = 987654321;
+int n, m; 
+struct info
+{
+    int cost;
+    int from;
+    int to;
+};
+vector<info> arr;
+bool comp(struct info a,struct info b)
+{
+    return a.cost < b.cost;
+}
+vector<int> parent;
+int sol(int pos)
+{
+    if (pos == parent[pos]) return pos;
+    return parent[pos] = sol(parent[pos]);
+}
+int main() {
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d%d", &n, &m);
+ 
+    parent.resize(n + 1);
+    for (int i = 1; i <= n; i++)
+        parent[i] = i;
+ 
+    for (int i = 0; i < m; i++)
+    {
+        int a, b, c;
+        scanf("%d%d%d", &a, &b, &c);
+        info tmp;
+        tmp.cost = c;
+        tmp.from = a;
+        tmp.to = b;
+        arr.push_back(tmp);
+    }
+    sort(arr.begin(), arr.end(), comp);
+    int a, b;
+    int ans = 0;
+    for (int i = 0; i < m; i++)
+    {
+        a = sol(arr[i].from);
+        b = sol(arr[i].to);
+        if (a == b) continue;
+        parent[a] = b;
+        ans += arr[i].cost;
+    }
+    printf("%d\n", ans);
+}
