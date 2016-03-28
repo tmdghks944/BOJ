@@ -1,0 +1,61 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <iomanip>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+const int INF = 987654321;
+vector<int> parent;
+int n, m;
+int find(int pos)
+{
+    if (pos == parent[pos]) return pos;
+    return parent[pos] = find(parent[pos]);
+}
+int main() {
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    scanf("%d%d", &n, &m);
+    parent.resize(n + 1);
+    for (int i = 0; i <= n; i++)
+        parent[i] = i;
+    int a, b, c;
+    while (m--)
+    {
+        scanf("%d%d%d", &a, &b, &c);
+        if (a == 0)//합집합.
+        {
+            b = find(b);
+            c = find(c);
+            if (b == c) continue;
+            parent[c] = b;
+        }
+        else//포함되어있냐?
+        {
+            b = find(b);
+            c = find(c);
+            if (b == c)
+            {
+                printf("YES\n"); 
+                continue;
+            }
+            printf("NO\n");
+        }
+    }
+ }
