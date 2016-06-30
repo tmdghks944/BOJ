@@ -1,0 +1,60 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+const int INF = 987654321;
+const int MOD = 1000000;
+ 
+int main()
+{
+#ifdef _CONSOLE
+    freopen( "input.txt", "r", stdin);
+#endif
+    int casenum;
+    scanf("%d", &casenum);
+    for (int t = 1; t <= casenum; t++)
+    {
+        vector<int> arr;
+        vector<int> lis;
+        int T,limit;
+        scanf("%d%d", &T,&limit);
+        arr.resize(T);
+        for (int i = 0; i < T; i++)
+            scanf("%d", &arr[i]);
+        lis.push_back(arr[0]);
+        for (int i = 1; i < T; i++)
+        {
+            if (arr[i] > lis.back())
+                lis.push_back(arr[i]);
+            else
+            {
+                vector<int>::iterator it = lower_bound(lis.begin(), lis.end(), arr[i]);
+                *it = arr[i];
+            }
+        }
+        if (lis.size() >= limit) {
+            printf("Case #%d\n", t);
+            printf("1\n");
+        }
+        else {
+            printf("Case #%d\n", t);
+            printf("0\n");
+        }
+    }
+}
