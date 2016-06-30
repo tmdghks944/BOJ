@@ -1,0 +1,49 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+const int INF = 987654321;
+const int MOD = 1000000;
+int n;
+int arr[21];
+int brr[21];
+int dp[101][21];//사람,체력
+int solution(int che, int pos)
+{
+    if (che <= 0 || pos>n)
+        return -INF;
+    int& ret = dp[che][pos];
+    if (ret != -1)return ret;
+    ret = 0;
+    ret = max(ret, max(solution(che,pos+1), solution(che-arr[pos],pos+1) + brr[pos]));
+    return ret;
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    memset(dp, -1, sizeof(dp));
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++)
+        scanf("%d" , &arr[i]);
+    for (int i = 0; i < n; i++)
+        scanf("%d", &brr[i]);
+    printf("%d\n", solution(100,0));
+}
