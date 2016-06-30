@@ -1,0 +1,49 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+const int INF = 987654321;
+int n;
+int arr[501][501];
+int dp[501][501];
+int solution(int curDepth, int curPos)
+{
+    if (curDepth == n - 1)
+        return arr[curDepth][curPos];
+    int& ret = dp[curDepth][curPos];
+    if (ret != -1)return ret;
+    ret = 0;
+    for (int i = 0; i <= curDepth; i++)
+    {
+        ret = max(ret, max(solution(curDepth + 1, curPos) + arr[curDepth][curPos], solution(curDepth + 1, curPos + 1) + arr[curDepth][curPos]));
+    }
+    return ret;
+ 
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    memset(dp, -1, sizeof(dp));
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j <= i; j++)
+            scanf("%d", &arr[i][j]);
+    printf("%d\n", solution(0, 0));
+}
