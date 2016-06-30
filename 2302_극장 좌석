@@ -1,0 +1,70 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+ 
+const int INF = 987654321;
+const int MOD = 1000000;
+ll n, m;
+ll arr[41];
+ll dp[41];
+vector<int> pos;
+ll solution(int s)
+{
+    if (s == 0 || s == 1)
+        return 1;
+    ll& ret = dp[s];
+    if (ret != -1)  return ret;
+    ret = 0;
+    ret = solution(s - 1) + solution(s - 2);
+    return ret;
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    memset(dp, -1, sizeof(dp));
+    pos.push_back(0);
+    dp[0] = 1;
+    dp[1] = 1;
+    ll ans = 1;
+    scanf("%lld%lld", &n, &m);
+    for (int i = 0; i < m; i++) {
+        scanf("%d", &arr[i]);
+        pos.push_back(arr[i]);
+    }
+    pos.push_back(n+1);
+    ll maxx = solution(40);
+    if (m == 0)
+    {
+        printf("%d", dp[n]);
+        return 0;
+    }
+    for (int i = 0; i < pos.size()-1; i++)
+    {
+        int prev_pos = pos[i];
+        int last_pos = pos[i + 1];
+        int tmp = last_pos - prev_pos - 1;
+        if (prev_pos - last_pos == 0)
+            tmp = 1;
+        ans *= dp[tmp];
+    }
+    printf("%lld\n", ans);
+}
