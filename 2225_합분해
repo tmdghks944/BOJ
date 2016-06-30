@@ -1,0 +1,47 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+#include <algorithm>
+#include <functional>
+#include <cstring>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <list>
+#include <map>
+#include <cmath>
+#include <climits>
+#include <math.h>
+#include <set>
+ 
+using namespace std;
+typedef long long ll;
+const ll INF = 999987654321;
+const ll MOD = 1000000000;
+ll n, k;
+ll dp[201][201];
+ 
+ll solution(ll s, ll cnt)
+{
+    if (s == n && cnt == k)
+        return 1;
+    else if (s > n || cnt > k)
+        return 0;
+    ll& ret = dp[s][cnt];
+    if (ret != -1)return ret;
+    ret = 0;
+    for (ll i = 0; i <= n; i++)
+        ret=(ret + solution(s + i, cnt + 1)) % MOD;
+    return ret;
+}
+int main()
+{
+#ifdef _CONSOLE
+    freopen( "input.txt", "r", stdin);
+#endif
+    memset(dp, -1, sizeof(dp));
+    scanf("%lld%lld", &n, &k);
+    printf("%lld\n", solution(0,0));
+}
