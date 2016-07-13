@@ -1,0 +1,68 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <functional>
+#include <cstdlib>
+#include <string>
+#include <cstring>
+#include <utility>
+#include <map>
+#include <set>
+#include <climits>
+#include <stdio.h>
+#include <string.h>
+using namespace std;
+const int INF = 987654321;
+typedef long long ll;
+ 
+string str1, str2;
+int len1, len2;
+int dp[1001][1001];
+ 
+int solution(int a, int b)
+{
+    if (a == len1 || b == len2)
+        return 0;
+    int& ret = dp[a][b];
+    if (ret != -1)return ret;
+    ret = 0;
+    if (str1[a] == str2[b])
+        ret = max(ret, solution(a + 1, b + 1) + 1);
+    else
+        ret = max(ret, max(solution(a, b + 1), solution(a + 1, b)));
+    return ret;
+}
+ 
+int main()
+{
+#ifdef _CONSOLE
+    freopen("input.txt", "r", stdin);
+#endif
+    memset(dp, -1, sizeof(dp));
+    cin >> str1 >> str2;
+    len1 = str1.size();
+    len2 = str2.size();
+    printf("%d\n", solution(0,0));
+     
+    int tmp_x = 0;
+    int tmp_y = 0;
+    while (tmp_x < len1 && tmp_y < len2)
+    {
+        if (str1[tmp_x] == str2[tmp_y])
+        {
+            printf("%c", str1[tmp_x]);
+            tmp_x++;
+            tmp_y++;
+            continue;
+        }
+        if (dp[tmp_x+1][tmp_y] > dp[tmp_x][tmp_y+1])
+            tmp_x++;
+        else
+            tmp_y++;
+    }
+    printf("\n");
+}
