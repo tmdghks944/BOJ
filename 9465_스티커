@@ -55,5 +55,5 @@ int main()
             for (int j = 0; j < n; j++)
                 scanf("%d", &arr[i][j]);
         printf("%d\n", max(solution(0, 0), solution(1, 0)));
-    }
+    } 
 }
